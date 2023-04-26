@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\PasteController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PasteController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,8 +15,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::get('/pastes', [PasteController::class, 'index'])->name('index');
+
+Route::controller(AuthController::class)->group(function () {
+    Route::get('/dashboard', 'dashboard')->name('dashboard'); 
+    Route::get('/registration', 'registration')->name('registration')->middleware('guest');
+    Route::post('/custom-registration', 'customRegistration')->name('custom-registration')->middleware('guest');
+    Route::get('/login', 'login')->name('login')->middleware('guest');
+    Route::post('/custom-login', 'customLogin')->name('custom-login')->middleware('guest');
+    Route::get('/signout', 'signOut')->name('signout')->middleware('auth');
+});
