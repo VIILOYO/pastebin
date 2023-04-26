@@ -4,30 +4,30 @@
 
     <form action="{{ route('pastes.store') }}" method="post" class="form">
         @csrf
-        <label for="expiration_time">Язык</label>
-        <select name="expiration_time">
-            <option value="10">10 минут</option>
-            <option value="60">1 час</option>
-            <option value="180">3 часа</option>
-            <option value="1440">1 день</option>
-            <option value="10080">1 неделя</option>
-            <option value="43200">3 часа</option>
-            <option value="-1" selected>без ограничения</option>
+        <label for="language">Язык</label>
+        <select name="language" class="language">
+            <option value="text/javascript">JavaScript</option>
+            <option value="xml">HTML</option>
+            <option value="python">Python</option>
+            <option value="css">CSS</option>
+            <option value="pascal">Pascal</option>
+            <option value="text/x-c++sr">C++</option>
+            <option value="text/x-java">Java</option>
         </select>
         @error('expiration_time')
-            {{ $message }}
+        {{ $message }}
         @enderror
 
         <label for="title">Название</label>
         <input type="text" name="title" placeholder="Название">
         @error('title')
-            {{ $message }}
+        {{ $message }}
         @enderror
 
         <label for="text">Паста</label>
         <textarea name="text" cols="100" rows="10" id="myTextarea"></textarea>
         @error('text')
-            {{ $message }}
+        {{ $message }}
         @enderror
 
         <div>
@@ -39,10 +39,10 @@
                 <option value="1440">1 день</option>
                 <option value="10080">1 неделя</option>
                 <option value="43200">3 часа</option>
-                <option value="-1" selected>без ограничения</option>
+                <option value="-1">без ограничения</option>
             </select>
             @error('expiration_time')
-                {{ $message }}
+            {{ $message }}
             @enderror
         </div>
 
@@ -53,16 +53,24 @@
             <option value="private">private -- доступна только автору</option>
         </select>
         @error('access_restriction')
-            {{ $message }}
+        {{ $message }}
         @enderror
 
         <button type="submit">Сохранить</button>
-        <script>
-            var myTextarea = document.getElementById('myTextarea');
-            var editor = CodeMirror.fromTextArea(myTextarea, {
-                lineNumbers: true,
-                mode: 'pascal',
-            });
-        </script>
     </form>
+    <div class="result"></div>
+    <script>
+        const selectElement = document.querySelector(".language");
+        selectElement.addEventListener("change", (event) => {
+            editor.setOption('mode', event.target.value);
+            console.log(event.target.value);
+            console.log(editor.options.mode);
+        });
+        
+        const myTextarea = document.getElementById('myTextarea');
+        let editor = CodeMirror.fromTextArea(myTextarea, {
+            lineNumbers: true,
+            mode: `text/javascript`,
+        });
+    </script>
 @endsection
