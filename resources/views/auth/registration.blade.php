@@ -1,13 +1,8 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Регистрация</title>
-</head>
-<body>
-    <form action="{{ route('custom-registration') }}" method="POST">
+@extends('layouts.main')
+
+@section('content')
+    <h4>Регистрация</h4>
+    <form action="{{ route('custom-registration') }}" method="post" class="form">
         @csrf
         <label for="name">Логин</label>
         <input type="login" name="name" placeholder="Логин" value="{{ old('name') ? old('name') : null }}">
@@ -23,5 +18,5 @@
 
         <button type="submit">Зарегистрироваться</button>
     </form>
-</body>
-</html>
+
+@endsection

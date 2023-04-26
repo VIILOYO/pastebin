@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
 
             $table->unsignedBigInteger('user_id')->nullable(true);
-            $table->string('title', 255);
+            $table->string('title', 255)->default('undefined');
+            $table->string('url')->unique(true);
             $table->text('text');
             $table->bigInteger('expiration_time')->nullable(true);
             $table->unsignedSmallInteger('access_restriction')->default(1);

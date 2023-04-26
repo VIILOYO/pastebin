@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Http\Requests\PasteCreateRequest;
 use App\Repositories\Interfaces\PasteRepositoryInterface;
 
 
@@ -19,6 +19,16 @@ class PasteController extends Controller
     {
         $pastes = $this->pasteRepository->all();
         
-        return view('paste', compact('pastes'));
+        return view('paste.index', compact('pastes'));
+    }
+
+    public function create() 
+    {
+        return $this->pasteRepository->create();
+    }
+
+    public function store(PasteCreateRequest $request) 
+    {
+        return $this->pasteRepository->store($request);
     }
 }

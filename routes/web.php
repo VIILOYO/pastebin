@@ -4,18 +4,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PasteController;
 use App\Http\Controllers\AuthController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
 
-Route::get('/pastes', [PasteController::class, 'index'])->name('index');
+Route::controller(PasteController::class)->prefix('/pastes')->group(function () {
+    Route::get('/', 'index')->name('pastes.index');
+    Route::get('/create', 'create')->name('pastes.create');
+    Route::post('/store', 'store')->name('pastes.store');
+});
+
 
 Route::controller(AuthController::class)->group(function () {
     Route::get('/dashboard', 'dashboard')->name('dashboard'); 

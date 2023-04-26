@@ -2,8 +2,8 @@
 
 namespace App\Repositories;
 
+use App\Http\Requests\PasteCreateRequest;
 use App\Models\Paste;
-use App\Models\User;
 use App\Repositories\Interfaces\PasteRepositoryInterface;
 
 class PasteRepository implements PasteRepositoryInterface
@@ -12,8 +12,15 @@ class PasteRepository implements PasteRepositoryInterface
     {
         return Paste::all();
     }
-    public function getByUser(User $user)
+
+    public function create()
     {
-        return Paste::where('user_id'. $user->id)->get();
+        return view('paste.create');
+    }
+
+    public function store(PasteCreateRequest $request) {
+        $data = $request->validate();
+
+        dd($data);
     }
 }

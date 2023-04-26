@@ -2,11 +2,13 @@
 
 namespace App\Repositories\Interfaces;
 
-use App\Models\User;
+use App\Http\Requests\PasteCreateRequest;
 
 interface PasteRepositoryInterface
 {
     public function all();
 
-    public function getByUser(User $user);
+    public function create();
+
+    public function store(PasteCreateRequest $request);
 }
