@@ -12,4 +12,5 @@ class Paste extends Model
     use SoftDeletes;
 
     protected $table = 'pastes';
+    protected $guarded = [];
 }

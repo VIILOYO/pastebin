@@ -11,4 +11,6 @@ interface PasteRepositoryInterface
     public function create();
 
     public function store(PasteCreateRequest $request);
+
+    public function show(string $url);
 }

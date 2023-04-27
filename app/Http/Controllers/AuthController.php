@@ -50,7 +50,7 @@ class AuthController extends Controller
     public function dashboard()
     {
         if(Auth::check()){
-            return view('paste.pastes');
+            return view('paste.index');
         }
   
         return redirect("login");

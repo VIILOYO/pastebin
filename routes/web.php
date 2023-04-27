@@ -9,6 +9,7 @@ Route::controller(PasteController::class)->prefix('/pastes')->group(function () 
     Route::get('/', 'index')->name('pastes.index');
     Route::get('/create', 'create')->name('pastes.create');
     Route::post('/store', 'store')->name('pastes.store');
+    Route::get('/{url}', 'show')->name('pastes.show');
 });
 
 

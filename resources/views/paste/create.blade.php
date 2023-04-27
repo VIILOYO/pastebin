@@ -48,9 +48,9 @@
 
         <label for="access_restriction">Доступ</label>
         <select name="access_restriction">
-            <option value="public" selected>public -- доступна всем, видна в списках</option>
-            <option value="unlisted">unlisted -- доступна только по ссылке</option>
-            <option value="private">private -- доступна только автору</option>
+            <option value="1" selected>public -- доступна всем, видна в списках</option>
+            <option value="2">unlisted -- доступна только по ссылке</option>
+            <option value="3">private -- доступна только автору</option>
         </select>
         @error('access_restriction')
         {{ $message }}
@@ -63,8 +63,6 @@
         const selectElement = document.querySelector(".language");
         selectElement.addEventListener("change", (event) => {
             editor.setOption('mode', event.target.value);
-            console.log(event.target.value);
-            console.log(editor.options.mode);
         });
         
         const myTextarea = document.getElementById('myTextarea');
