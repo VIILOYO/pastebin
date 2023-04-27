@@ -3,12 +3,15 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PasteController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HomeController;
 
+
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::controller(PasteController::class)->prefix('/pastes')->group(function () {
-    Route::get('/', 'index')->name('pastes.index');
     Route::get('/create', 'create')->name('pastes.create');
     Route::post('/store', 'store')->name('pastes.store');
+    Route::get('/user/{id}', 'getPastesByUser')->name('pastes.user')->middleware('auth');
     Route::get('/{url}', 'show')->name('pastes.show');
 });
 

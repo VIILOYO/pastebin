@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PasteCreateRequest;
-use App\Models\Paste;
 use App\Repositories\Interfaces\PasteRepositoryInterface;
 
 
@@ -36,5 +35,10 @@ class PasteController extends Controller
     public function show(string $url) 
     {
         return $this->pasteRepository->show($url);
+    }
+
+    public function getPastesByUser(string $id)
+    {
+        return $this->pasteRepository->getPastesByUser($id);
     }
 }

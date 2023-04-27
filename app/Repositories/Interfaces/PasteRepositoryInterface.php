@@ -13,4 +13,6 @@ interface PasteRepositoryInterface
     public function store(PasteCreateRequest $request);
 
     public function show(string $url);
+
+    public function getPastesByUser(string $id);
 }
