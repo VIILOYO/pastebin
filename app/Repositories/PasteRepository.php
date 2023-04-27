@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Http\Requests\PasteCreateRequest;
 use App\Models\Paste;
 use App\Repositories\Interfaces\PasteRepositoryInterface;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 
 class PasteRepository implements PasteRepositoryInterface
@@ -25,8 +26,8 @@ class PasteRepository implements PasteRepositoryInterface
         $data['user_id'] = auth()->user() ? auth()->user()->id : null;
         $data['url'] = substr(Hash::make($request->title), 0, 10);
 
-        Paste::create($data);
-
+        $paste = Paste::create($data);
+        $paste->update(['timeToDelete' => Carbon::now()->subMinutes(-$paste->expiration_time)]);
         return redirect()->route('pastes.index');
     }
 

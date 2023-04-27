@@ -20,7 +20,8 @@ return new class extends Migration
             $table->text('text');
             $table->bigInteger('expiration_time')->nullable(true);
             $table->unsignedSmallInteger('access_restriction')->default(1);
-            $table->string('language')->default('PHP');
+            $table->string('language');
+            $table->dateTime('timeToDelete')->nullable(true);
 
             $table->timestamps();
             $table->softDeletes();
