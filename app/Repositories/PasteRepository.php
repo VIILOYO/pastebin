@@ -27,7 +27,9 @@ class PasteRepository implements PasteRepositoryInterface
         $data['url'] = substr(Hash::make($request->title), 0, 10);
 
         $paste = Paste::create($data);
-        $paste->update(['timeToDelete' => Carbon::now()->subMinutes(-$paste->expiration_time)]);
+        if($paste->expiration_time > 0) {
+            $paste->update(['timeToDelete' => Carbon::now()->subMinutes($paste->expiration_time)]);
+        };
 
         return redirect()->route('pastes.show', ['url' => $paste->url]);
     }

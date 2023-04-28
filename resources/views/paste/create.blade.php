@@ -14,20 +14,20 @@
             <option value="text/x-c++sr">C++</option>
             <option value="text/x-java">Java</option>
         </select>
-        @error('expiration_time')
-        {{ $message }}
+        @error('language')
+            {{ $message }}
         @enderror
 
         <label for="title">Название</label>
         <input type="text" name="title" placeholder="Название">
         @error('title')
-        {{ $message }}
+            {{ $message }}
         @enderror
 
         <label for="text">Паста</label>
         <textarea name="text" cols="100" rows="10" id="myTextarea"></textarea>
         @error('text')
-        {{ $message }}
+            {{ $message }}
         @enderror
 
         <div>
@@ -39,10 +39,10 @@
                 <option value="1440">1 день</option>
                 <option value="10080">1 неделя</option>
                 <option value="43200">3 часа</option>
-                <option value="-1">без ограничения</option>
+                <option value="0">без ограничения</option>
             </select>
             @error('expiration_time')
-            {{ $message }}
+                {{ $message }}
             @enderror
         </div>
 
@@ -53,7 +53,7 @@
             <option value="3">private -- доступна только автору</option>
         </select>
         @error('access_restriction')
-        {{ $message }}
+            {{ $message }}
         @enderror
 
         <button type="submit">Сохранить</button>
