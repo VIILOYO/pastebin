@@ -38,17 +38,17 @@ class PasteRepository implements PasteRepositoryInterface
     {
         $paste = Paste::where('url', $url)->first();
 
-        if($paste->access_restriction === 3) {
-            if(auth()->user() === null || auth()->user()->id !== $paste->user_id) {
-                return redirect()->back();
-            }
-        }
+        if($paste->access_restriction === 3 && (auth()->user() === null || auth()->user()->id !== $paste->user_id)) {
+            return redirect()->back();
+        };
+        
         return view('paste.show', compact('paste'));
     }
 
     public function getPastesByUser(string $id)
     {
-        $pastes = Paste::where('user_id', auth()->user()->id)->orderByDesc('created_at')->paginate(10);
+        $pastes = Auth()->user()->pastes()->paginate(10);
+
         return view('paste.index', compact('pastes'));
     }
 }

@@ -19,13 +19,13 @@
         @enderror
 
         <label for="title">Название</label>
-        <input type="text" name="title" placeholder="Название">
+        <input type="text" name="title" placeholder="Название" value="{{ old('title') ? old('title') : null}}">
         @error('title')
             {{ $message }}
         @enderror
 
         <label for="text">Паста</label>
-        <textarea name="text" cols="100" rows="10" id="myTextarea"></textarea>
+        <textarea name="text" cols="100" rows="10" id="myTextarea">{{ old('text') ? old('text') : null}}</textarea>
         @error('text')
             {{ $message }}
         @enderror
@@ -58,7 +58,7 @@
 
         <button type="submit">Сохранить</button>
     </form>
-    <div class="result"></div>
+
     <script>
         const selectElement = document.querySelector(".language");
         selectElement.addEventListener("change", (event) => {
