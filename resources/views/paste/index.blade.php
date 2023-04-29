@@ -2,8 +2,10 @@
 
 @section('content')
     <h4>Список моих паст</h4>
-    @foreach ($pastes as $paste)
-        <p>{{ $paste->id }} <a href="{{ route('pastes.show', $paste->url) }}">{{ $paste->title }}</a></p>
-    @endforeach
+    <div class="list-group w-50">
+        @foreach ($pastes as $paste)
+            <a href="{{ route('pastes.show', $paste->url) }}" class="list-group-item list-group-item-action mb-3 fs-4">{{ $paste->title }}</a>
+        @endforeach
+    </div>
     {{ $pastes->withQueryString()->links() }}
 @endsection

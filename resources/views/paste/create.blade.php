@@ -4,35 +4,41 @@
 
     <form action="{{ route('pastes.store') }}" method="post" class="form">
         @csrf
-        <label for="language">Язык</label>
-        <select name="language" class="language">
-            <option value="text/javascript">JavaScript</option>
-            <option value="xml">HTML</option>
-            <option value="python">Python</option>
-            <option value="css">CSS</option>
-            <option value="pascal">Pascal</option>
-            <option value="text/x-c++sr">C++</option>
-            <option value="text/x-java">Java</option>
-        </select>
-        @error('language')
-            {{ $message }}
-        @enderror
+        <div class="w-25 mb-2">
+            <label for="language">Язык</label>
+            <select class="form-select bg-white" name="language" id="language">
+                <option value="text/javascript">JavaScript</option>
+                <option value="xml">HTML</option>
+                <option value="python">Python</option>
+                <option value="css">CSS</option>
+                <option value="pascal">Pascal</option>
+                <option value="text/x-c++sr">C++</option>
+                <option value="text/x-java">Java</option>
+            </select>
+            @error('language')
+                {{ $message }}
+            @enderror
+        </div>
 
-        <label for="title">Название</label>
-        <input type="text" name="title" placeholder="Название" value="{{ old('title') ? old('title') : null}}">
-        @error('title')
-            {{ $message }}
-        @enderror
+        <div class="w-25 mb-2">
+            <label for="title">Название</label>
+            <input class="form-control bg-white" type="text" name="title" placeholder="Название" value="{{ old('title') ? old('title') : null}}">
+            @error('title')
+                <p class="text-danger">{{ $message }}</p>
+            @enderror
+        </div>
 
-        <label for="text">Паста</label>
-        <textarea name="text" cols="100" rows="10" id="myTextarea">{{ old('text') ? old('text') : null}}</textarea>
-        @error('text')
-            {{ $message }}
-        @enderror
+        <div class="w-100 mb-2">
+            <label for="text">Текст пасты</label>
+            <textarea name="text" cols="100" rows="10" id="myTextarea">{{ old('text') ? old('text') : 'Введите свой текст'}}</textarea>
+            @error('text')
+                <p class="text-danger">{{ $message }}</p>
+            @enderror
+        </div>
 
-        <div>
+        <div class="w-25 mb-2">
             <label for="expiration_time">Время жизни</label>
-            <select name="expiration_time">
+            <select class="form-select bg-white" name="expiration_time">
                 <option value="10">10 минут</option>
                 <option value="60">1 час</option>
                 <option value="180">3 часа</option>
@@ -42,30 +48,34 @@
                 <option value="0">без ограничения</option>
             </select>
             @error('expiration_time')
-                {{ $message }}
+            <p class="text-danger">{{ $message }}</p>
             @enderror
         </div>
 
-        <label for="access_restriction">Доступ</label>
-        <select name="access_restriction">
-            <option value="1" selected>public -- доступна всем, видна в списках</option>
-            <option value="2">unlisted -- доступна только по ссылке</option>
-            <option value="3" {{ Auth::user() ? null : 'disabled' }}>private -- доступна только автору</option>
-        </select>
-        @error('access_restriction')
-            {{ $message }}
-        @enderror
+        <div class="w-25 mb-2">
+            <label for="access_restriction">Доступ</label>
+            <select class="form-select bg-white" name="access_restriction">
+                <option value="1" selected>public -- доступна всем, видна в списках</option>
+                <option value="2">unlisted -- доступна только по ссылке</option>
+                <option value="3" {{ Auth::user() ? null : 'disabled' }}>private -- доступна только автору</option>
+            </select>
+            @error('access_restriction')
+                <p class="text-danger">{{ $message }}</p>
+            @enderror
+        </div>
 
-        <button type="submit">Сохранить</button>
+        <button type="submit" class="btn btn-success">Сохранить</button>
     </form>
 
     <script>
-        const selectElement = document.querySelector(".language");
+        'use strict';
+        const selectElement = document.querySelector("#language");
+        const myTextarea = document.getElementById('myTextarea');
+
         selectElement.addEventListener("change", (event) => {
             editor.setOption('mode', event.target.value);
         });
         
-        const myTextarea = document.getElementById('myTextarea');
         let editor = CodeMirror.fromTextArea(myTextarea, {
             lineNumbers: true,
             mode: `text/javascript`,

@@ -10,6 +10,12 @@
     <!-- CodeMirror -->
     @include('layouts.codemirror')
     <!----------------------->
+    <style>
+        .form-control {
+            background: white;
+            color: black;
+        }
+    </style>
 </head>
 
 <body>
