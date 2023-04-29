@@ -28,3 +28,6 @@
 
 8. Запустить сервер:  
 `npm run serve`
+
+# ТЗ: 
+https://drive.google.com/file/d/1K13pX2YlenpW22D4HoNZH1yYiMSTewve/view
