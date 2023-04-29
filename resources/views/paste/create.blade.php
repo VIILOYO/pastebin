@@ -50,7 +50,7 @@
         <select name="access_restriction">
             <option value="1" selected>public -- доступна всем, видна в списках</option>
             <option value="2">unlisted -- доступна только по ссылке</option>
-            <option value="3">private -- доступна только автору</option>
+            <option value="3" {{ Auth::user() ? null : 'disabled' }}>private -- доступна только автору</option>
         </select>
         @error('access_restriction')
             {{ $message }}

@@ -8,15 +8,14 @@ use App\Http\Controllers\HomeController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::controller(PasteController::class)->prefix('/pastes')->group(function () {
-    Route::get('/create', 'create')->name('pastes.create');
-    Route::post('/store', 'store')->name('pastes.store');
-    Route::get('/user/{id}', 'getPastesByUser')->name('pastes.user')->middleware('auth');
-    Route::get('/{url}', 'show')->name('pastes.show');
+Route::group(['controller' => PasteController::class, 'prefix' => '/pastes', 'as' => 'pastes.'], function () {
+    Route::get('/create', 'create')->name('create');
+    Route::post('/store', 'store')->name('store');
+    Route::get('/user/{id}', 'getPastesByUser')->name('user')->middleware('auth');
+    Route::get('/{url}', 'show')->name('.show');
 });
 
-
-Route::controller(AuthController::class)->group(function () {
+Route::group(['controller' => AuthController::class], function () {
     Route::get('/dashboard', 'dashboard')->name('dashboard'); 
     Route::get('/registration', 'registration')->name('registration')->middleware('guest');
     Route::post('/custom-registration', 'customRegistration')->name('custom-registration')->middleware('guest');

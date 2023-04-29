@@ -3,11 +3,10 @@
 namespace App\Repositories\Interfaces;
 
 use App\Http\Requests\PasteCreateRequest;
+use Illuminate\Database\Eloquent\Collection;
 
 interface PasteRepositoryInterface
 {
-    public function all();
-
     public function create();
 
     public function store(PasteCreateRequest $request);

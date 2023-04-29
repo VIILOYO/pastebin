@@ -27,6 +27,7 @@ class AppServiceProvider extends ServiceProvider
         Paginator::defaultView('vendor.pagination.bootstrap-5');
 
         View::share('publicPastes', Paste::where('access_restriction', 1)->orderByDesc('created_at')->limit(10)->get());
+        
         view()->composer('*', function ($view) 
         {
             if(Auth::user()) {

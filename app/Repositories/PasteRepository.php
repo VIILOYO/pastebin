@@ -10,26 +10,20 @@ use Illuminate\Support\Facades\Hash;
 
 class PasteRepository implements PasteRepositoryInterface
 {
-    public function all()
-    {
-        return Paste::all();
-    }
-
     public function create()
     {
         return view('paste.create');
     }
 
-    public function store(PasteCreateRequest $request) 
+    public function store(PasteCreateRequest $request)
     {
         $data = $request->validated();
         $data['user_id'] = auth()->user() ? auth()->user()->id : null;
         $data['url'] = substr(Hash::make($request->title), 0, 10);
 
+        if($data['expiration_time'] > 0) $data['timeToDelete'] = Carbon::now()->subMinutes(-$data['expiration_time']);
+
         $paste = Paste::create($data);
-        if($paste->expiration_time > 0) {
-            $paste->update(['timeToDelete' => Carbon::now()->subMinutes($paste->expiration_time)]);
-        };
 
         return redirect()->route('pastes.show', ['url' => $paste->url]);
     }

@@ -15,13 +15,6 @@ class PasteController extends Controller
         $this->pasteRepository = $pasteRepository;
     }
 
-    public function index()
-    {
-        $pastes = $this->pasteRepository->all();
-        
-        return view('paste.index', compact('pastes'));
-    }
-
     public function create() 
     {
         return $this->pasteRepository->create();
