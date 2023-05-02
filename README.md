@@ -18,13 +18,13 @@
 `php artisan key:generate`
 
 5. Выполнить миграцию и seed:  
-`php artisan migrate --seed`
+`php artisan migrate:fresh`
 
 6. Установить npm:  
 `npm install`
 
 7. Выполнить сборку файлов:  
-`npm run build`
+`npm run dev`
 
 8. Запустить сервер:  
 `npm run serve`
