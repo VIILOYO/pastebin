@@ -3,35 +3,48 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PasteCreateRequest;
-use App\Repositories\Interfaces\PasteRepositoryInterface;
-
+use App\Services\PasteService;
 
 class PasteController extends Controller
 {
-    private $pasteRepository;
+    private PasteService $pasteService;
 
-    public function __construct(PasteRepositoryInterface $pasteRepository)
+    public function __construct(PasteService $pasteService)
     {
-        $this->pasteRepository = $pasteRepository;
+        $this->pasteService = $pasteService;
     }
 
     public function create() 
     {
-        return $this->pasteRepository->create();
+        return view('paste.create');
     }
 
     public function store(PasteCreateRequest $request) 
     {
-        return $this->pasteRepository->store($request);
+        $paste = $this->pasteService->savePasteDate($request);
+
+        return view('paste.show', compact('paste'));
     }
 
     public function show(string $url) 
     {
-        return $this->pasteRepository->show($url);
+        $paste = $this->pasteService->showPaste($url);
+
+        if($paste->access_restriction === 3 && (auth()->user() === null || auth()->user()->id !== $paste->user_id)) {
+            return redirect()->back();
+        };
+
+        return view('paste.show', compact('paste'));
     }
 
-    public function getPastesByUser(string $id)
+    public function userPastes(string $id)
     {
-        return $this->pasteRepository->getPastesByUser($id);
+        if($id != auth()->user()->id) {
+            return redirect()->back();
+        };
+
+        $pastes = $this->pasteService->getPastesByUser($id);
+
+        return view('paste.index', compact('pastes'));
     }
 }

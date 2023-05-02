@@ -11,8 +11,8 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::group(['controller' => PasteController::class, 'prefix' => '/pastes', 'as' => 'pastes.'], function () {
     Route::get('/create', 'create')->name('create');
     Route::post('/store', 'store')->name('store');
-    Route::get('/user/{id}', 'getPastesByUser')->name('user')->middleware('auth');
-    Route::get('/{url}', 'show')->name('.show');
+    Route::get('/user/{id}', 'userPastes')->name('user')->middleware('auth');
+    Route::get('/{url}', 'show')->name('show');
 });
 
 Route::group(['controller' => AuthController::class], function () {

@@ -25,11 +25,11 @@ class AppServiceProvider extends ServiceProvider
     public function boot(Request $request): void
     {
         Paginator::defaultView('vendor.pagination.bootstrap-5');
-
-        View::share('publicPastes', Paste::where('access_restriction', 1)->orderByDesc('created_at')->limit(10)->get());
         
         view()->composer('*', function ($view) 
         {
+            View::share('publicPastes', Paste::where('access_restriction', 1)->orderByDesc('created_at')->limit(10)->get());
+            
             if(Auth::user()) {
                 $personalPastes = Paste::where('user_id', Auth::user()->id)->orderByDesc('created_at')->limit(10)->get();
                 View::share('personalPastes', $personalPastes );    
