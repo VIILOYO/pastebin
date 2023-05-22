@@ -2,40 +2,46 @@
 
 namespace App\Services;
 
-use App\Http\Requests\PasteCreateRequest;
-use App\Repositories\PasteRepository;
+use App\Models\Paste;
+use App\Repositories\Interfaces\PasteRepositoryInterface;
+use App\Services\interfaces\PasteServiceInterface;
 use Carbon\Carbon;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Hash;
 
-class PasteService 
+class PasteService implements PasteServiceInterface
 {
-    private $pasteRepository;
 
-    public function __construct(PasteRepository $pasteRepository)
+    public function __construct(
+        public readonly PasteRepositoryInterface $pasteRepository
+    )
+    {}
+
+    /**
+     * @inheritDoc
+     */
+    public function savePaste(array $data, ?int $user_id = null): Paste
     {
-        $this->pasteRepository = $pasteRepository;
+        $data['url'] = substr(Hash::make($data['title']), 0, 10);
+        $data['user_id'] = $user_id;
+
+        if($data['expiration_time'] > 0) $data['timeToDelete'] = Carbon::now()->addMinutes($data['expiration_time']);
+        return $this->pasteRepository->create($data);
     }
 
-    public function savePasteDate(PasteCreateRequest $request) 
+    /**
+     * @inheritDoc
+     */
+    public function showPaste(string $url): Paste
     {
-        $data = $request->validated();
-        $data['user_id'] = auth()->user() ? auth()->user()->id : null;
-        $data['url'] = substr(Hash::make($request->title), 0, 10);
-
-        if($data['expiration_time'] > 0) $data['timeToDelete'] = Carbon::now()->subMinutes(-$data['expiration_time']);
-
-        $result = $this->pasteRepository->store($data);
-
-        return $result;
+        return $this->pasteRepository->getPasteByUrl($url);
     }
 
-    public function showPaste(String $url) 
+    /**
+     * @inheritDoc
+     */
+    public function getPastesByUser(string $id): LengthAwarePaginator
     {
-        return $this->pasteRepository->show($url);
-    }
-
-    public function getPastesByUser(string $id)
-    {
-        return $this->pasteRepository->getPastesByUser($id);
+        return $this->pasteRepository->pastesPaginate($id);
     }
 }

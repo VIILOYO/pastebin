@@ -4,42 +4,61 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PasteCreateRequest;
 use App\Services\PasteService;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
 class PasteController extends Controller
 {
-    private PasteService $pasteService;
+    public function __construct(
+        public readonly PasteService $pasteService
+    )
+    {}
 
-    public function __construct(PasteService $pasteService)
-    {
-        $this->pasteService = $pasteService;
-    }
-
-    public function create() 
+    /**
+     * @return View
+     */
+    public function create(): View
     {
         return view('paste.create');
     }
 
-    public function store(PasteCreateRequest $request) 
+    /**
+     * @param PasteCreateRequest $request
+     * @return RedirectResponse
+     */
+    public function store(PasteCreateRequest $request): RedirectResponse
     {
-        $paste = $this->pasteService->savePasteDate($request);
+        $data = $request->validated();
+        $user_id = Auth::id();
 
-        return view('paste.show', compact('paste'));
+        $paste = $this->pasteService->savePaste($data, $user_id);
+
+        return redirect()->route('pastes.show', $paste->url);
     }
 
-    public function show(string $url) 
+    /**
+     * @param string $url
+     * @return View|RedirectResponse
+     */
+    public function show(string $url): View|RedirectResponse
     {
         $paste = $this->pasteService->showPaste($url);
 
-        if($paste->access_restriction === 3 && (auth()->user() === null || auth()->user()->id !== $paste->user_id)) {
+        if($paste->access_restriction === 3 && Auth::id() !== $paste->user_id) {
             return redirect()->back();
         };
 
         return view('paste.show', compact('paste'));
     }
 
-    public function userPastes(string $id)
+    /**
+     * @param string $id
+     * @return View|RedirectResponse
+     */
+    public function userPastes(string $id): View|RedirectResponse
     {
-        if($id != auth()->user()->id) {
+        if($id != Auth::id()) {
             return redirect()->back();
         };
 

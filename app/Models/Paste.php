@@ -13,7 +13,16 @@ class Paste extends Model
     use SoftDeletes;
 
     protected $table = 'pastes';
-    protected $guarded = [];
+    protected $fillable = [
+        'user_id',
+        'title',
+        'url',
+        'text',
+        'expiration_time',
+        'access_restriction',
+        'language',
+        'timeToDelete',
+    ];
 
     public function author(): BelongsTo
     {

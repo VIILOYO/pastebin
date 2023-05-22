@@ -2,11 +2,21 @@
 
 namespace App\Repositories\Interfaces;
 
-interface PasteRepositoryInterface
+use App\Models\Paste;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Prettus\Repository\Contracts\RepositoryInterface;
+
+interface PasteRepositoryInterface extends RepositoryInterface
 {
-    public function store(array $data);
+    /**
+     * @param int $user_id
+     * @return LengthAwarePaginator
+     */
+    public function pastesPaginate(int $user_id): LengthAwarePaginator;
 
-    public function show(string $url);
-
-    public function getPastesByUser(string $id);
+    /**
+     * @param string $url
+     * @return Paste
+     */
+    public function  getPasteByUrl(string $url): Paste;
 }

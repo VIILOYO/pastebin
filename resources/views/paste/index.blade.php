@@ -7,5 +7,5 @@
             <a href="{{ route('pastes.show', $paste->url) }}" class="list-group-item list-group-item-action mb-3 fs-4">{{ $paste->title }}</a>
         @endforeach
     </div>
-    {{ $pastes->withQueryString()->links() }}
+    {{ $pastes->links() }}
 @endsection
