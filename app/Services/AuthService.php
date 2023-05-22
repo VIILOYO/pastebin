@@ -4,9 +4,10 @@ namespace App\Services;
 
 use App\Models\User;
 use App\Repositories\Interfaces\AuthRepositoryInterface;
+use App\Services\interfaces\AuthServiceInterface;
 use Illuminate\Support\Facades\Hash;
 
-class AuthService
+class AuthService implements AuthServiceInterface
 {
 
     public function __construct(
